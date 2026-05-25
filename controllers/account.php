@@ -2,12 +2,8 @@
 class AccountController {
     private mysqli $conn;
 
-    public function __construct(string $server, string $user, string $pass, string $db) {
-        $this->conn = new mysqli($server, $user, $pass, $db);
-
-        if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
-        }
+    public function __construct(mysqli $conn) {
+        $this->conn = $conn;
     }
 
     // ── LOGIN ──────────────────────────────────────────────────────────────
@@ -31,7 +27,6 @@ class AccountController {
 
     // ── REGISTER ───────────────────────────────────────────────────────────
     public function register(string $username, string $email, string $password): bool|string {
-        // Check for duplicate username or email
         $check = $this->conn->prepare(
             "SELECT id FROM accounts WHERE username = ? OR email = ?"
         );
@@ -55,7 +50,6 @@ class AccountController {
 
     // ── SEND PASSWORD RESET ────────────────────────────────────────────────
     public function sendPasswordReset(string $email): bool {
-        // Check if email exists
         $check = $this->conn->prepare(
             "SELECT id FROM accounts WHERE email = ?"
         );
@@ -64,17 +58,15 @@ class AccountController {
         $check->store_result();
 
         if ($check->num_rows === 0) {
-            return true; // Return true anyway to avoid email enumeration
+            return true;
         }
 
-        // Delete any existing reset tokens for this email
         $delete = $this->conn->prepare(
             "DELETE FROM password_resets WHERE email = ?"
         );
         $delete->bind_param("s", $email);
         $delete->execute();
 
-        // Generate a secure token, expires in 1 hour
         $token   = bin2hex(random_bytes(32));
         $expires = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
@@ -84,9 +76,8 @@ class AccountController {
         $stmt->bind_param("sss", $email, $token, $expires);
         $stmt->execute();
 
-        // Send the email
-        $resetLink = "http://localhost/reset_password.php?token=" . $token;
-        $subject   = "Fini — Password Reset Request";
+        $resetLink = "https://" . $_SERVER['HTTP_HOST'] . "/reset_password.php?token=" . $token;
+        $subject   = "Fini – Password Reset Request";
         $body      = "Click the link below to reset your password. It expires in 1 hour.\n\n" . $resetLink;
         $headers   = "From: no-reply@fini.com";
 
@@ -123,7 +114,6 @@ class AccountController {
         $update->bind_param("ss", $hashed, $email);
         $update->execute();
 
-        // Delete the used token
         $delete = $this->conn->prepare(
             "DELETE FROM password_resets WHERE token = ?"
         );

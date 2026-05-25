@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 
 session_start();
 
+require_once __DIR__ . '/public/database.config.php';
 require_once __DIR__ . '/models/account.php';
 require_once __DIR__ . '/controllers/account.php';
-require_once __DIR__ . '/public/database.config.php';
 
 $errors  = "";
 $message = "";
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif ($password !== $confirm) {
         $errors = "Passwords do not match.";
     } else {
-        $controller = new AccountController($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+        $controller = new AccountController($conn);
         $result     = $controller->register($username, $email, $password);
 
         if ($result === true) {
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fini — Create Account</title>
+    <title>Fini – Create Account</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/register.css">
@@ -228,7 +228,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     document.getElementById('registerForm').addEventListener('submit', function () {
         const btn = document.getElementById('submitBtn');
         btn.textContent = 'Creating account…';
-        // NOTE: do NOT disable the button — disabled buttons don't submit their value
     });
 </script>
 
