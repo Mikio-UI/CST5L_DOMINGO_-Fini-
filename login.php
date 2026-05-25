@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 
 session_start();
 
+require_once __DIR__ . '/public/database.config.php';
 require_once __DIR__ . '/models/account.php';
 require_once __DIR__ . '/controllers/account.php';
-require_once __DIR__ . '/public/database.config.php';
 
 $errors  = "";
 $message = "";
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($username) || empty($password)) {
         $errors = "Please fill in all fields.";
     } else {
-        $controller = new AccountController($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+        $controller = new AccountController($conn);
         $result     = $controller->login($username, $password);
 
         if ($result !== false) {
@@ -144,7 +144,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 <style>
-    /* ── Transition overlay styles ── */
     #login-transition-overlay {
         position: fixed;
         inset: 0;
@@ -152,8 +151,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         pointer-events: none;
         display: none;
     }
-
-    /* Dark curtain that sweeps across */
     #lt-curtain {
         position: absolute;
         inset: 0;
@@ -162,8 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         transform-origin: left center;
         will-change: transform;
     }
-
-    /* Centered logo that appears during transition */
     #lt-logo {
         position: absolute;
         inset: 0;
@@ -176,12 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         color: #e9eaf0;
         letter-spacing: -1px;
     }
-
-    #lt-logo .dot {
-        color: #4a8fff;
-    }
-
-    /* Shimmer line */
+    #lt-logo .dot { color: #4a8fff; }
     #lt-shimmer {
         position: absolute;
         top: 50%;
@@ -193,7 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 </style>
 
-<!-- Transition overlay (hidden until triggered) -->
 <div id="login-transition-overlay">
     <div id="lt-curtain"></div>
     <div id="lt-logo">Fini<span class="dot">.</span></div>
@@ -227,7 +216,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .then(res => res.text())
         .then(html => {
             if (html.includes('dashboard.php')) {
-                // Signal the dashboard to use transition reveal
                 sessionStorage.setItem('fini_login_transition', '1');
                 playLoginTransition(() => {
                     window.location.href = '/dashboard.php';
@@ -242,7 +230,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 btn.disabled = false;
                 btn.textContent = 'Sign In';
 
-                // Shake the form on error
                 const formEl = document.getElementById('loginForm');
                 formEl.style.transition = 'transform 0.08s ease';
                 formEl.style.transform = 'translateX(-6px)';
@@ -262,10 +249,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         const left     = document.querySelector('.left');
         const right    = document.querySelector('.right');
 
-        // Show overlay
         overlay.style.display = 'block';
 
-        // Phase 1 (0–200ms): Fade out form content, keep brand visible
         left.style.transition  = 'opacity 0.2s ease';
         left.style.opacity     = '0';
         if (right) {
@@ -273,23 +258,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             right.style.opacity    = '0';
         }
 
-        // Phase 2 (200–650ms): Curtain sweeps in from left
         setTimeout(() => {
             curtain.style.transition = 'transform 0.45s cubic-bezier(0.87, 0, 0.13, 1)';
             curtain.style.transform  = 'scaleX(1)';
         }, 180);
 
-        // Phase 3 (600ms): Logo fades in at center
         setTimeout(() => {
             logo.style.transition = 'opacity 0.3s ease';
             logo.style.opacity    = '1';
-
-            // Shimmer sweeps across
             shimmer.style.transition = 'left 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
             shimmer.style.left       = '140%';
         }, 580);
 
-        // Phase 4 (1050ms): Navigate
         setTimeout(() => {
             callback();
         }, 1050);
