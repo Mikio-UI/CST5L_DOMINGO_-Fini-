@@ -14,13 +14,7 @@ $db = $conn;
 
 
 // Auto-migrate: add profile columns if they don't exist yet
-$db->query("ALTER TABLE accounts
-    ADD COLUMN IF NOT EXISTS display_name VARCHAR(120) DEFAULT NULL,
-    ADD COLUMN IF NOT EXISTS bio          TEXT         DEFAULT NULL,
-    ADD COLUMN IF NOT EXISTS gender       VARCHAR(30)  DEFAULT NULL,
-    ADD COLUMN IF NOT EXISTS location     VARCHAR(120) DEFAULT NULL,
-    ADD COLUMN IF NOT EXISTS avatar_data  MEDIUMTEXT   DEFAULT NULL,
-    ADD COLUMN IF NOT EXISTS cover_data   MEDIUMTEXT   DEFAULT NULL");
+
 
 $body   = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $body['action'] ?? '';
