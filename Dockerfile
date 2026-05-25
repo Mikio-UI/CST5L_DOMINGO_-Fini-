@@ -1,8 +1,7 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=9
-
+ARG CACHE_BUST=10
 ENV APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data \
     APACHE_RUN_DIR=/var/run/apache2 \
@@ -13,7 +12,7 @@ ENV APACHE_RUN_USER=www-data \
 # Install mysqli
 RUN docker-php-ext-install mysqli
 
-# Force prefork: disable event, enable prefork — both in one RUN so no layer can undo it
+# Force prefork: disable event, enable prefork
 RUN a2dismod mpm_event mpm_worker || true \
  && a2enmod mpm_prefork \
  && rm -f /etc/apache2/mods-enabled/mpm_event.load \
@@ -22,15 +21,19 @@ RUN a2dismod mpm_event mpm_worker || true \
           /etc/apache2/mods-enabled/mpm_worker.conf \
  && mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
 
-# Enable rewrite + override in the same RUN (no new a2en after this)
+# Enable rewrite + override
 RUN a2enmod rewrite \
  && printf '<Directory /var/www/html>\n    AllowOverride All\n    Require all granted\n</Directory>\n' \
     > /etc/apache2/conf-enabled/override.conf
 
-# Verify — build will FAIL here if mpm_event sneaks back in
+# Verify build fails if mpm_event sneaks back in
 RUN apache2ctl -t && ! ls /etc/apache2/mods-enabled/ | grep mpm_event
 
 COPY . /var/www/html/
 WORKDIR /var/www/html
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Use start.sh to also kill mpm_event at runtime before Apache starts
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
