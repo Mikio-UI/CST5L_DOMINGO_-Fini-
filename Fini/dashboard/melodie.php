@@ -5,7 +5,7 @@ ini_set('display_errors', 0);
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    echo '<script>window.location.href="/Fini/login.php";</script>';
+    echo '<script>window.location.href="/login.php";</script>';
     exit();
 }
 
@@ -880,18 +880,18 @@ if (!$db->connect_error) {
     </style>
 </head>
 <body>
-<script>(function(){if(window.self===window.top){window.location.replace('/Fini/shell.php?page=melodie');}}());</script>
+<script>(function(){if(window.self===window.top){window.location.replace('/shell.php?page=melodie');}}());</script>
 
-<video class="bg-video" src="/Fini/assets/bg.mp4" autoplay muted loop playsinline></video>
+<video class="bg-video" src="/assets/bg.mp4" autoplay muted loop playsinline></video>
 
 <!-- ───── TOPBAR ───── -->
 <header class="topbar">
-    <a href="/Fini/dashboard.php" class="topbar-brand">Fini.</a>
+    <a href="/dashboard.php" class="topbar-brand">Fini.</a>
     <div class="topbar-divider"></div>
 
     <ul class="topbar-nav">
         <li>
-            <a href="/Fini/dashboard.php">
+            <a href="/dashboard.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                 <span>Dashboard</span>
                 <?php if ($incompleteTasks > 0): ?>
@@ -900,7 +900,7 @@ if (!$db->connect_error) {
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/Mytasks.php">
+            <a href="/dashboard/Mytasks.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                 <span>My Tasks</span>
                 <?php if ($incompleteTasks > 0): ?>
@@ -909,25 +909,25 @@ if (!$db->connect_error) {
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/Calendar.php">
+            <a href="/dashboard/Calendar.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
                 <span>Calendar</span>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/Analytics.php">
+            <a href="/dashboard/Analytics.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
                 <span>Analytics</span>
             </a>
         </li>
         <li class="active">
-            <a href="/Fini/dashboard/melodie.php">
+            <a href="/dashboard/melodie.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                 <span>mélodie</span>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/settings.php">
+            <a href="/dashboard/settings.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
                 <span>Settings</span>
             </a>
@@ -943,7 +943,7 @@ if (!$db->connect_error) {
 
     <div class="topbar-divider"></div>
 
-    <a href="/Fini/dashboard/settings.php" class="topbar-user" style="text-decoration:none;cursor:pointer;">
+    <a href="/dashboard/settings.php" class="topbar-user" style="text-decoration:none;cursor:pointer;">
         <div class="topbar-avatar">
             <?= strtoupper(substr($username, 0, 1)) ?>
         </div>
@@ -1724,6 +1724,6 @@ if (IN_SHELL) {
 }
 </script>
 
-<script src="/Fini/nav-intercept.js"></script>
+<script src="/nav-intercept.js"></script>
 </body>
 </html>
