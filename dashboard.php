@@ -12,12 +12,9 @@ $user_id  = (int) $_SESSION['user_id'];
 $username = $_SESSION['username'] ?? 'User';
 
 // ── Step 5: DB via shared config ──
-require_once __DIR__ . '/public/database.config.php'; // FIX 2: was /../public which went above /Fini
-// database.config.php defines $SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
-if ($db->connect_error) {
-    $db = null; // gracefully degrade — no tasks will load
-}
+require_once __DIR__ . '/public/database.config.php';
+$db = $conn; // $conn is already set by database.config.php
+
 
 // ── Fetch tasks — Step 6: filtered by user_id ──
 $tasks = ['todo' => [], 'inprogress' => [], 'done' => []];
