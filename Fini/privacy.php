@@ -239,10 +239,10 @@
 <body>
 
 <nav class="nav">
-    <a href="/Fini/login.php" class="brand">Fini.</a>
+    <a href="/login.php" class="brand">Fini.</a>
     <ul class="nav-links">
-        <li><a href="/Fini/login.php">Sign In</a></li>
-        <li><a href="/Fini/register.php">Register</a></li>
+        <li><a href="/login.php">Sign In</a></li>
+        <li><a href="/register.php">Register</a></li>
     </ul>
 </nav>
 
@@ -315,7 +315,7 @@
 
 <footer class="footer">
     <p>© <?= date('Y') ?> Fini. All rights reserved.</p>
-    <a href="/Fini/terms.php">Terms of Service →</a>
+    <a href="/terms.php">Terms of Service →</a>
 </footer>
 
 </body>
