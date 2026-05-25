@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=2
+ARG CACHE_BUST=3
 
 # Set required Apache environment variables
 ENV APACHE_RUN_USER=www-data \
@@ -11,11 +11,32 @@ ENV APACHE_RUN_USER=www-data \
     APACHE_LOCK_DIR=/var/lock/apache2 \
     APACHE_LOG_DIR=/var/log/apache2
 
-# Wipe ALL mods-enabled and only re-enable what we need
+# Wipe ALL mods-enabled, then re-enable only what's needed
 RUN rm -rf /etc/apache2/mods-enabled/* \
- && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
- && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load \
- && ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load \
+ && for mod in \
+      mpm_prefork.conf mpm_prefork.load \
+      rewrite.load \
+      authz_core.load \
+      authz_host.load \
+      access_compat.load \
+      auth_basic.load \
+      authn_core.load \
+      authn_file.load \
+      authz_user.load \
+      alias.conf alias.load \
+      dir.conf dir.load \
+      mime.conf mime.load \
+      status.conf status.load \
+      env.load \
+      setenvif.conf setenvif.load \
+      filter.load \
+      deflate.conf deflate.load \
+      headers.load \
+      reqtimeout.conf reqtimeout.load \
+    ; do \
+      [ -f /etc/apache2/mods-available/$mod ] && \
+        ln -s /etc/apache2/mods-available/$mod /etc/apache2/mods-enabled/$mod || true; \
+    done \
  && mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
 
 # Install mysqli extension
@@ -34,10 +55,7 @@ RUN echo '<Directory /var/www/html>\n\
 </Directory>' > /etc/apache2/conf-available/override.conf \
  && a2enconf override
 
-# Verify config at build time + show what MPMs are enabled
-RUN echo "=== MODS ENABLED ===" \
- && ls /etc/apache2/mods-enabled/ \
- && echo "=== APACHE CONFIG TEST ===" \
- && apache2ctl -t
+# Verify config at build time
+RUN apache2ctl -t
 
 CMD ["apache2", "-D", "FOREGROUND"]
