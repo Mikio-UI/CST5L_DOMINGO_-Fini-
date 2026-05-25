@@ -16,7 +16,7 @@ require_once __DIR__ . '/../public/database.config.php';
 $db = $conn;
 
 $incompleteTasks = 0;
-if (!$db->connect_error) {
+if ($db) {
     $s = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
     $s->bind_param('i', $user_id); $s->execute(); $s->bind_result($incompleteTasks); $s->fetch(); $s->close();
 }

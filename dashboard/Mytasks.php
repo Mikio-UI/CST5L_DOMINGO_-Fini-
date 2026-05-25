@@ -18,7 +18,7 @@ $db = $conn;
 $countAll = $countProgress = $countPending = $countOverdue = 0;
 $tasks = ['overdue' => [], 'inprogress' => [], 'todo' => []];
 
-if (!$db->connect_error) {
+if ($db) {
     // Total active tasks (for nav badge)
     $s = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
     $s->bind_param('i', $user_id); $s->execute(); $s->bind_result($countAll); $s->fetch(); $s->close();

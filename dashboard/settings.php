@@ -13,7 +13,7 @@ $activeTaskCount = 0;
 
 require_once __DIR__ . '/../public/database.config.php';
 $db = $conn;
-if (!$db->connect_error) {
+if ($db) {
     // Auto-migrate: add profile columns if they don't exist yet
     $db->query("ALTER TABLE accounts
         ADD COLUMN IF NOT EXISTS display_name VARCHAR(120) DEFAULT NULL,

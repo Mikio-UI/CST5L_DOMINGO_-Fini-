@@ -43,7 +43,7 @@ $donutDataJS       = '[]';
 $donutTotalJS      = '0';
 $lineMax           = 1;
 
-if (!$db->connect_error) {
+if ($db) {
     // ── Nav badge: tasks not done ─────────────────────────
     $s = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
     $s->bind_param('i', $user_id); $s->execute(); $s->bind_result($incompleteTasks); $s->fetch(); $s->close();
