@@ -1,12 +1,20 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=7
+ARG CACHE_BUST=8
+
+# Required Apache runtime env vars
+ENV APACHE_RUN_USER=www-data \
+    APACHE_RUN_GROUP=www-data \
+    APACHE_RUN_DIR=/var/run/apache2 \
+    APACHE_PID_FILE=/var/run/apache2/apache2.pid \
+    APACHE_LOCK_DIR=/var/lock/apache2 \
+    APACHE_LOG_DIR=/var/log/apache2
 
 # Install mysqli
 RUN docker-php-ext-install mysqli
 
-# Nuclear option: delete ALL mod symlinks, then manually add only prefork + what we need
+# Nuclear option: delete ALL mod symlinks, then manually add only what we need
 RUN rm -f /etc/apache2/mods-enabled/* \
  && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load \
  && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
@@ -32,13 +40,12 @@ RUN rm -f /etc/apache2/mods-enabled/* \
  && ln -s /etc/apache2/mods-available/reqtimeout.load  /etc/apache2/mods-enabled/reqtimeout.load \
  && ln -s /etc/apache2/mods-available/reqtimeout.conf  /etc/apache2/mods-enabled/reqtimeout.conf \
  && ln -s /etc/apache2/mods-available/php8.2.load      /etc/apache2/mods-enabled/php8.2.load \
- && ln -s /etc/apache2/mods-available/php8.2.conf      /etc/apache2/mods-enabled/php8.2.conf
+ && ln -s /etc/apache2/mods-available/php8.2.conf      /etc/apache2/mods-enabled/php8.2.conf \
+ && mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
 
 # Write Apache directory config directly — no a2enconf
-RUN echo '<Directory /var/www/html>\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' > /etc/apache2/conf-enabled/override.conf
+RUN printf '<Directory /var/www/html>\n    AllowOverride All\n    Require all granted\n</Directory>\n' \
+    > /etc/apache2/conf-enabled/override.conf
 
 # Verify no mpm_event present
 RUN echo "=== MODS ENABLED ===" && ls /etc/apache2/mods-enabled/ && apache2ctl -t
