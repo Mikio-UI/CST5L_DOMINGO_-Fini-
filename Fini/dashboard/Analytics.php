@@ -5,7 +5,7 @@ ini_set('display_errors', 0);
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    echo '<script>window.location.href="/Fini/login.php";</script>';
+    echo '<script>window.location.href="/login.php";</script>';
     exit();
 }
 
@@ -160,7 +160,7 @@ if (!$db->connect_error) {
     <title>Fini — Analytics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Fini/css/Analytics.css">
+    <link rel="stylesheet" href="/css/Analytics.css">
     <style>
         :root.light-mode {
             --bg:     #f0f2f8;
@@ -212,7 +212,7 @@ if (!$db->connect_error) {
     </style>
 </head>
 <body>
-<script>(function(){if(window.self===window.top){window.location.replace('/Fini/shell.php?page=analytics');}}());</script>
+<script>(function(){if(window.self===window.top){window.location.replace('/shell.php?page=analytics');}}());</script>
 
 <video autoplay muted loop playsinline class="bg-video">
     <source src="../assets/bg.mp4" type="video/mp4">
@@ -221,26 +221,26 @@ if (!$db->connect_error) {
 <!-- ───── TOPBAR ───── -->
 <header class="topbar">
 
-    <a href="/Fini/dashboard.php" class="topbar-brand">Fini.</a>
+    <a href="/dashboard.php" class="topbar-brand">Fini.</a>
     <div class="topbar-divider"></div>
 
     <ul class="topbar-nav">
         <li>
-            <a href="/Fini/dashboard.php">
+            <a href="/dashboard.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                 <span>Dashboard</span>
                 <?php if ($incompleteTasks > 0): ?><span class="badge"><?= $incompleteTasks ?></span><?php endif; ?>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/mytasks.php">
+            <a href="/dashboard/mytasks.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                 <span>My Tasks</span>
                 <?php if ($incompleteTasks > 0): ?><span class="badge"><?= $incompleteTasks ?></span><?php endif; ?>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/calendar.php">
+            <a href="/dashboard/calendar.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
                 <span>Calendar</span>
             </a>
@@ -252,13 +252,13 @@ if (!$db->connect_error) {
             </a>
         </li>
                 <li>
-            <a href="/Fini/dashboard/melodie.php">
+            <a href="/dashboard/melodie.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                 <span>mélodie</span>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/settings.php">
+            <a href="/dashboard/settings.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
                 <span>Settings</span>
             </a>
@@ -284,12 +284,12 @@ if (!$db->connect_error) {
 
     <div class="topbar-divider"></div>
 
-    <a href="/Fini/dashboard/settings.php" class="topbar-user" title="My Profile" style="text-decoration:none;cursor:pointer;">
+    <a href="/dashboard/settings.php" class="topbar-user" title="My Profile" style="text-decoration:none;cursor:pointer;">
         <?php $_av = $_SESSION['avatar_data'] ?? ''; if ($_av): ?><div class="avatar" style="background-image:url(<?= htmlspecialchars($_av) ?>);background-size:cover;background-position:center;font-size:0;"></div><?php else: ?><div class="avatar"><?= strtoupper(substr($username, 0, 1)) ?></div><?php endif; ?>
         <span class="topbar-user-name"><?= htmlspecialchars($username) ?></span>
     </a>
 
-    <a href="/Fini/logout.php" class="logout-btn" title="Sign out">
+    <a href="/logout.php" class="logout-btn" title="Sign out">
         <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
     </a>
 
@@ -621,6 +621,6 @@ document.querySelector('.btn-ghost').addEventListener('click', function() {
 });
 </script>
 
-<script src="/Fini/nav-intercept.js"></script>
+<script src="/nav-intercept.js"></script>
 </body>
 </html>
