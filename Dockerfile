@@ -1,10 +1,10 @@
 FROM php:8.2-apache
 
-# Force only mpm_prefork by directly managing the config files
-RUN cd /etc/apache2/mods-enabled \
- && rm -f mpm_event.conf mpm_event.load mpm_worker.conf mpm_worker.load mpm_prefork.conf mpm_prefork.load \
- && ln -sf ../mods-available/mpm_prefork.conf mpm_prefork.conf \
- && ln -sf ../mods-available/mpm_prefork.load mpm_prefork.load
+# Forcefully remove ALL MPM modules from mods-enabled, then enable only prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.conf \
+          /etc/apache2/mods-enabled/mpm_*.load \
+ && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
+ && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
 
 # Enable mod_rewrite for .htaccess
 RUN a2enmod rewrite
@@ -24,5 +24,8 @@ RUN echo '<Directory /var/www/html>\n\
     Require all granted\n\
 </Directory>' > /etc/apache2/conf-available/override.conf \
  && a2enconf override
+
+# Verify only one MPM is loaded (will fail build if broken)
+RUN apache2ctl -t
 
 EXPOSE 80
