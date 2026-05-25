@@ -25,8 +25,18 @@ RUN echo '<Directory /var/www/html>\n\
 </Directory>' > /etc/apache2/conf-available/override.conf \
  && a2enconf override
 
+# Set required Apache environment variables
+ENV APACHE_RUN_USER=www-data
+ENV APACHE_RUN_GROUP=www-data
+ENV APACHE_RUN_DIR=/var/run/apache2
+ENV APACHE_PID_FILE=/var/run/apache2/apache2.pid
+ENV APACHE_LOCK_DIR=/var/lock/apache2
+ENV APACHE_LOG_DIR=/var/log/apache2
+
+# Ensure runtime dirs exist
+RUN mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
+
 # Verify config at build time
 RUN apache2ctl -t
 
-# Explicitly start Apache in foreground with no extra modules
 CMD ["apache2", "-D", "FOREGROUND"]
