@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Forcefully remove ALL MPM modules from mods-enabled, then enable only prefork
+# Remove ALL MPM symlinks, enable only prefork
 RUN rm -f /etc/apache2/mods-enabled/mpm_*.conf \
           /etc/apache2/mods-enabled/mpm_*.load \
  && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
@@ -25,7 +25,8 @@ RUN echo '<Directory /var/www/html>\n\
 </Directory>' > /etc/apache2/conf-available/override.conf \
  && a2enconf override
 
-# Verify only one MPM is loaded (will fail build if broken)
+# Verify config at build time
 RUN apache2ctl -t
 
-EXPOSE 80
+# Explicitly start Apache in foreground with no extra modules
+CMD ["apache2", "-D", "FOREGROUND"]
