@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset"])) {
     <title>Fini — Forgot Password</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Fini/css/password.css">
+    <link rel="stylesheet" href="/css/password.css">
 </head>
 <body>
 
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset"])) {
             <a href="/" class="brand">Fini.</a>
             <ul class="nav-links">
                 <li><a href="/">Dashboard</a></li>
-                <li><a href="/Fini/register.php">Join</a></li>
+                <li><a href="/register.php">Join</a></li>
             </ul>
         </nav>
 
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset"])) {
         <h1>Forgot your<br>password<span>?</span></h1>
         <p class="subtitle">
             No worries. Enter the email linked to your account and we'll send you a reset link.<br><br>
-            Remembered it? <a href="/Fini/login.php">Back to sign in</a>
+            Remembered it? <a href="/login.php">Back to sign in</a>
         </p>
 
         <?php if (!empty($message)): ?>
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset"])) {
             </div>
 
             <div class="btn-row">
-                <a href="/Fini/login.php" class="btn btn-secondary">
+                <a href="/login.php" class="btn btn-secondary">
                     Back
                 </a>
                 <button type="submit" name="reset" class="btn btn-primary" id="submitBtn">
