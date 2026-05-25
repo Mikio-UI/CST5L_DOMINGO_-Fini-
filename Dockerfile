@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=3
+ARG CACHE_BUST=4
 
 # Set required Apache environment variables
 ENV APACHE_RUN_USER=www-data \
@@ -26,11 +26,9 @@ RUN rm -rf /etc/apache2/mods-enabled/* \
       alias.conf alias.load \
       dir.conf dir.load \
       mime.conf mime.load \
-      status.conf status.load \
       env.load \
       setenvif.conf setenvif.load \
       filter.load \
-      deflate.conf deflate.load \
       headers.load \
       reqtimeout.conf reqtimeout.load \
     ; do \
@@ -58,4 +56,13 @@ RUN echo '<Directory /var/www/html>\n\
 # Verify config at build time
 RUN apache2ctl -t
 
-CMD ["apache2", "-D", "FOREGROUND"]
+# Write a startup script that dumps loaded MPMs before starting
+RUN echo '#!/bin/bash\n\
+echo "=== MODS AT RUNTIME ==="\n\
+ls /etc/apache2/mods-enabled/\n\
+echo "=== STARTING APACHE ==="\n\
+exec apache2 -D FOREGROUND\n\
+' > /usr/local/bin/start-apache.sh \
+ && chmod +x /usr/local/bin/start-apache.sh
+
+CMD ["/usr/local/bin/start-apache.sh"]
