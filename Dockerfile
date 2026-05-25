@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=5
+ARG CACHE_BUST=6
 
 # Set required Apache environment variables
 ENV APACHE_RUN_USER=www-data \
@@ -14,7 +14,11 @@ ENV APACHE_RUN_USER=www-data \
 # Install mysqli extension FIRST (it may re-enable mpm_event)
 RUN docker-php-ext-install mysqli
 
-# NOW wipe ALL mods-enabled and re-enable only what we need
+# Disable mpm_event explicitly, then enable prefork
+RUN a2dismod mpm_event || true \
+ && a2enmod mpm_prefork
+
+# NOW wipe ALL mods-enabled and re-enable only what we need (no a2enmod calls after this)
 RUN rm -rf /etc/apache2/mods-enabled/* \
  && for mod in \
       mpm_prefork.conf mpm_prefork.load \
@@ -40,9 +44,6 @@ RUN rm -rf /etc/apache2/mods-enabled/* \
         ln -s /etc/apache2/mods-available/$mod /etc/apache2/mods-enabled/$mod || true; \
     done \
  && mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
-
-# Enable mod_rewrite
-RUN a2enmod rewrite
 
 # Copy project files
 COPY . /var/www/html/
