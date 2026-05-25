@@ -1,8 +1,10 @@
 FROM php:8.2-apache
 
-# Fix Apache MPM conflict — disable all MPMs first, then enable only prefork
-RUN a2dismod mpm_event mpm_worker mpm_prefork 2>/dev/null || true \
- && a2enmod mpm_prefork
+# Force only mpm_prefork by directly managing the config files
+RUN cd /etc/apache2/mods-enabled \
+ && rm -f mpm_event.conf mpm_event.load mpm_worker.conf mpm_worker.load mpm_prefork.conf mpm_prefork.load \
+ && ln -sf ../mods-available/mpm_prefork.conf mpm_prefork.conf \
+ && ln -sf ../mods-available/mpm_prefork.load mpm_prefork.load
 
 # Enable mod_rewrite for .htaccess
 RUN a2enmod rewrite
