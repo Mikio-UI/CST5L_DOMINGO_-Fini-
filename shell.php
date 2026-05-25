@@ -24,9 +24,9 @@ if (isset($_GET['page'])) {
     // Whitelist allowed pages
     $allowed = [
         'dashboard'  => '/dashboard.php',
-        'mytasks'    => '/dashboard/Mytasks.php',
-        'calendar'   => '/dashboard/Calendar.php',
-        'analytics'  => '/dashboard/Analytics.php',
+        'mytasks'    => '/dashboard/mytasks.php',
+        'calendar'   => '/dashboard/calendar.php',
+        'analytics'  => '/dashboard/analytics.php',
         'melodie'    => '/dashboard/melodie.php',
         'settings'   => '/dashboard/settings.php',
     ];
