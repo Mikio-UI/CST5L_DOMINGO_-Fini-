@@ -15,9 +15,7 @@ require_once __DIR__ . '/../public/database.config.php';
 $db = $conn;
 if ($db) {
     // Auto-migrate: add profile columns if they don't exist yet
-    $db->query("
-
-    $stmt = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
+        $stmt = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
     $stmt->bind_param('i', $user_id);
     $stmt->execute();
     $stmt->bind_result($activeTaskCount);
