@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($result === true) {
             ob_end_clean();
             echo '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>';
-            echo '<script>window.location.href = "/Fini/login.php?registered=1";</script>';
+            echo '<script>window.location.href = "/login.php?registered=1";</script>';
             echo '</body></html>';
             exit();
         } else {
@@ -51,13 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Fini — Create Account</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Fini/css/register.css">
+    <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
 
 <div class="layout">
     <video autoplay muted loop playsinline class="bg-video">
-        <source src="/Fini/assets/bg.mp4" type="video/mp4">
+        <source src="/assets/bg.mp4" type="video/mp4">
     </video>
 
     <!-- ───── LEFT ───── -->
@@ -66,14 +66,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <nav class="nav">
             <span class="brand">Fini.</span>
             <ul class="nav-links">
-                <li><a href="/Fini/dashboard.php">Dashboard</a></li>
-                <li><a href="/Fini/login.php">Sign In</a></li>
+                <li><a href="/dashboard.php">Dashboard</a></li>
+                <li><a href="/login.php">Sign In</a></li>
             </ul>
         </nav>
 
         <p class="eyebrow">Get started</p>
         <h1>Create your<br>account<span>.</span></h1>
-        <p class="already">Already a member? <a href="/Fini/login.php">Sign in</a></p>
+        <p class="already">Already a member? <a href="/login.php">Sign in</a></p>
 
         <?php if (!empty($message)): ?>
             <div class="alert alert-success"><?= htmlspecialchars($message) ?></div>
@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="row-terms">
                 <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the <a href="/Fini/terms.php">Terms of Service</a> and <a href="/Fini/privacy.php">Privacy Policy</a></label>
+                <label for="terms">I agree to the <a href="/terms.php">Terms of Service</a> and <a href="/privacy.php">Privacy Policy</a></label>
             </div>
 
             <div class="btn-row">
