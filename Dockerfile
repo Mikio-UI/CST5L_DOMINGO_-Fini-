@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 # Cache bust
-ARG CACHE_BUST=4
+ARG CACHE_BUST=5
 
 # Set required Apache environment variables
 ENV APACHE_RUN_USER=www-data \
@@ -11,7 +11,10 @@ ENV APACHE_RUN_USER=www-data \
     APACHE_LOCK_DIR=/var/lock/apache2 \
     APACHE_LOG_DIR=/var/log/apache2
 
-# Wipe ALL mods-enabled, then re-enable only what's needed
+# Install mysqli extension FIRST (it may re-enable mpm_event)
+RUN docker-php-ext-install mysqli
+
+# NOW wipe ALL mods-enabled and re-enable only what we need
 RUN rm -rf /etc/apache2/mods-enabled/* \
  && for mod in \
       mpm_prefork.conf mpm_prefork.load \
@@ -31,14 +34,15 @@ RUN rm -rf /etc/apache2/mods-enabled/* \
       filter.load \
       headers.load \
       reqtimeout.conf reqtimeout.load \
+      php8.2.conf php8.2.load \
     ; do \
       [ -f /etc/apache2/mods-available/$mod ] && \
         ln -s /etc/apache2/mods-available/$mod /etc/apache2/mods-enabled/$mod || true; \
     done \
  && mkdir -p /var/run/apache2 /var/lock/apache2 /var/log/apache2
 
-# Install mysqli extension
-RUN docker-php-ext-install mysqli
+# Enable mod_rewrite
+RUN a2enmod rewrite
 
 # Copy project files
 COPY . /var/www/html/
@@ -53,16 +57,7 @@ RUN echo '<Directory /var/www/html>\n\
 </Directory>' > /etc/apache2/conf-available/override.conf \
  && a2enconf override
 
-# Verify config at build time
-RUN apache2ctl -t
+# Verify — must say Syntax OK with NO mpm_event
+RUN echo "=== FINAL MODS ===" && ls /etc/apache2/mods-enabled/ && apache2ctl -t
 
-# Write a startup script that dumps loaded MPMs before starting
-RUN echo '#!/bin/bash\n\
-echo "=== MODS AT RUNTIME ==="\n\
-ls /etc/apache2/mods-enabled/\n\
-echo "=== STARTING APACHE ==="\n\
-exec apache2 -D FOREGROUND\n\
-' > /usr/local/bin/start-apache.sh \
- && chmod +x /usr/local/bin/start-apache.sh
-
-CMD ["/usr/local/bin/start-apache.sh"]
+CMD ["apache2", "-D", "FOREGROUND"]
