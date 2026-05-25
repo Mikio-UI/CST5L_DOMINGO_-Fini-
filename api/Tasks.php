@@ -11,11 +11,8 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = (int) $_SESSION['user_id'];
 
 require_once __DIR__ . '/../public/database.config.php';
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
-if ($db->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'DB connection failed']);
-    exit();
-}
+$db = $conn;
+
 
 // Auto-migrate: rename 'tag' to 'tag_class' if old schema exists
 $cols = [];

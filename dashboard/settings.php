@@ -12,7 +12,7 @@ $user_id         = (int) $_SESSION['user_id'];
 $activeTaskCount = 0;
 
 require_once __DIR__ . '/../public/database.config.php';
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+$db = $conn;
 if (!$db->connect_error) {
     // Auto-migrate: add profile columns if they don't exist yet
     $db->query("ALTER TABLE accounts

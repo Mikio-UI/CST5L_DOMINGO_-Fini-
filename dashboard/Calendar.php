@@ -14,7 +14,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'sidebar') {
     header('Content-Type: application/json');
     $user_id = (int) $_SESSION['user_id'];
     require_once __DIR__ . '/../public/database.config.php';
-    $db2 = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+    $db = $conn;
     $today2 = date('Y-m-d');
     $monthStart2 = date('Y-m-01');
     $monthEnd2   = date('Y-m-t');
@@ -65,7 +65,7 @@ $user_id  = (int) $_SESSION['user_id'];
 $today    = date('Y-m-d');
 
 require_once __DIR__ . '/../public/database.config.php';
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+$db = $conn;
 
 // ── Counts for topbar badge & sidebar ────────────────────
 $incompleteTasks = 0;

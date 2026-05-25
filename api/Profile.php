@@ -10,11 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = (int) $_SESSION['user_id'];
 
 require_once __DIR__ . '/../public/database.config.php';
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
-if ($db->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'DB connection failed']);
-    exit();
-}
+$db = $conn;
+
 
 // Auto-migrate: add profile columns if they don't exist yet
 $db->query("ALTER TABLE accounts

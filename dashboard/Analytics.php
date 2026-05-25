@@ -14,7 +14,7 @@ $user_id  = (int) $_SESSION['user_id'];
 $today    = date('Y-m-d');
 
 require_once __DIR__ . '/../public/database.config.php';
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+$db = $conn;
 
 // ── Tag class → hex color map ─────────────────────────────
 $tagClassToHex = [
