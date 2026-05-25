@@ -3,7 +3,7 @@ ob_start();
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    echo '<script>window.location.href="/Fini/login.php";</script>';
+    echo '<script>window.location.href="/login.php";</script>';
     exit();
 }
 
@@ -1072,7 +1072,7 @@ if (!$db->connect_error) {
         </style>
 </head>
 <body>
-<script>(function(){if(window.self===window.top){window.location.replace('/Fini/shell.php?page=settings');}}());</script>
+<script>(function(){if(window.self===window.top){window.location.replace('/shell.php?page=settings');}}());</script>
 
 <video autoplay muted loop playsinline class="bg-video">
     <source src="assets/bg.mp4" type="video/mp4">
@@ -1081,38 +1081,38 @@ if (!$db->connect_error) {
 <!-- ───── TOPBAR ───── -->
 <header class="topbar">
 
-    <a href="/Fini/dashboard.php" class="topbar-brand">Fini.</a>
+    <a href="/dashboard.php" class="topbar-brand">Fini.</a>
     <div class="topbar-divider"></div>
 
     <ul class="topbar-nav">
         <li>
-            <a href="/Fini/dashboard.php">
+            <a href="/dashboard.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
                 <span>Dashboard</span>
                 <?php if($activeTaskCount > 0): ?><span class="badge"><?= $activeTaskCount ?></span><?php endif; ?>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/mytasks.php">
+            <a href="/dashboard/mytasks.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                 <span>My Tasks</span>
                 <?php if($activeTaskCount > 0): ?><span class="badge"><?= $activeTaskCount ?></span><?php endif; ?>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/calendar.php">
+            <a href="/dashboard/calendar.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
                 <span>Calendar</span>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/analytics.php">
+            <a href="/dashboard/analytics.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
                 <span>Analytics</span>
             </a>
         </li>
         <li>
-            <a href="/Fini/dashboard/melodie.php">
+            <a href="/dashboard/melodie.php">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                 <span>mélodie</span>
             </a>
@@ -1134,12 +1134,12 @@ if (!$db->connect_error) {
 
     <div class="topbar-divider"></div>
 
-    <a href="/Fini/dashboard/settings.php" class="topbar-user" title="My Profile" style="text-decoration:none;cursor:pointer;outline:2px solid var(--accent);outline-offset:3px;border-radius:8px;padding:2px 6px 2px 2px;">
+    <a href="/dashboard/settings.php" class="topbar-user" title="My Profile" style="text-decoration:none;cursor:pointer;outline:2px solid var(--accent);outline-offset:3px;border-radius:8px;padding:2px 6px 2px 2px;">
         <?php $_av = $_SESSION['avatar_data'] ?? ''; if ($_av): ?><div class="avatar" id="topbarAvatar" style="background-image:url(<?= htmlspecialchars($_av) ?>);background-size:cover;background-position:center;font-size:0;"></div><?php else: ?><div class="avatar" id="topbarAvatar"><?= strtoupper(substr($username, 0, 1)) ?></div><?php endif; ?>
         <span class="topbar-user-name" id="topbarName"><?= htmlspecialchars($_SESSION['display_name'] ?? $username) ?></span>
     </a>
 
-    <a href="/Fini/logout.php" class="logout-btn" title="Sign out" id="topbar-logout">
+    <a href="/logout.php" class="logout-btn" title="Sign out" id="topbar-logout">
         <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
     </a>
 
@@ -1437,7 +1437,7 @@ if (!$db->connect_error) {
         <p>You'll be logged out of your Fini account and redirected to the login page. Any unsaved changes will be lost.</p>
         <div class="modal-actions">
             <button class="btn-cancel" id="cancel-logout">Cancel</button>
-            <a href="/Fini/logout.php" class="btn-danger" style="text-decoration:none">
+            <a href="/logout.php" class="btn-danger" style="text-decoration:none">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
                 Yes, sign out
             </a>
@@ -1543,7 +1543,7 @@ if (!$db->connect_error) {
 
         // 1. Profile fields
         try {
-            const res  = await fetch('/Fini/api/Profile.php', {
+            const res  = await fetch('/api/Profile.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1566,7 +1566,7 @@ if (!$db->connect_error) {
         // 2. Avatar
         if (pendingAvatar) {
             try {
-                const res  = await fetch('/Fini/api/Profile.php', {
+                const res  = await fetch('/api/Profile.php', {
                     method:  'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'save_avatar', avatar_data: pendingAvatar })
@@ -1580,7 +1580,7 @@ if (!$db->connect_error) {
         // 3. Cover
         if (pendingCover) {
             try {
-                const res  = await fetch('/Fini/api/Profile.php', {
+                const res  = await fetch('/api/Profile.php', {
                     method:  'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'save_cover', cover_data: pendingCover })
@@ -1619,7 +1619,7 @@ if (!$db->connect_error) {
         if (newPw.length < 8) { status.className='save-status err'; status.textContent='Min 8 characters.'; return; }
 
         try {
-            const res  = await fetch('/Fini/api/Profile.php', {
+            const res  = await fetch('/api/Profile.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action:'change_password', current_password:current, new_password:newPw, confirm_password:confirm })
@@ -1687,6 +1687,6 @@ if (!$db->connect_error) {
     darkToggle.addEventListener('change', () => applyTheme(darkToggle.checked));
 </script>
 
-<script src="/Fini/nav-intercept.js"></script>
+<script src="/nav-intercept.js"></script>
 </body>
 </html>
