@@ -14,7 +14,7 @@ $username = $_SESSION['username'] ?? 'User';
 // ── Step 5: DB via shared config ──
 require_once __DIR__ . '/public/database.config.php'; // FIX 2: was /../public which went above /Fini
 // database.config.php defines $SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME
-$db = new mysqli($SERVER_NAME, $USERNAME, $PASSWORD, $DB_NAME);
+$db = $conn;
 if ($db->connect_error) {
     $db = null; // gracefully degrade — no tasks will load
 }
