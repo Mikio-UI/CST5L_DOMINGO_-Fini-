@@ -944,9 +944,9 @@ if ($db) {
     <div class="topbar-divider"></div>
 
     <a href="/shell.php?page=settings" target="_top" class="topbar-user" style="text-decoration:none;cursor:pointer;">
-        <div class="topbar-avatar">
-            <?= strtoupper(substr($username, 0, 1)) ?>
-        </div>
+        <div class="topbar-avatar"><?php
+$av = $db->query("SELECT avatar_data FROM accounts WHERE id = $user_id")->fetch_assoc()['avatar_data'] ?? null;
+if ($av): ?><img src="<?= htmlspecialchars($av) ?>" alt="avatar"><?php else: ?><?= strtoupper(substr($username, 0, 1)) ?><?php endif; ?></div>
         <span class="topbar-user-name"><?= htmlspecialchars($username) ?></span>
     </a>
 </header>
