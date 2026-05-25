@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["user_id"]  = $result;
             ob_end_clean();
             echo '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>';
-            echo '<script>window.location.href = "/Fini/dashboard.php";</script>';
+            echo '<script>window.location.href = "/dashboard.php";</script>';
             echo '</body></html>';
             exit();
         } else {
@@ -49,13 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Fini — Sign In</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Fini/css/login.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 
 <div class="layout">
     <video autoplay muted loop playsinline class="bg-video">
-        <source src="/Fini/assets/bg.mp4" type="video/mp4">
+        <source src="/assets/bg.mp4" type="video/mp4">
     </video>
 
     <div class="left">
@@ -63,14 +63,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <nav class="nav">
             <span class="brand">Fini.</span>
             <ul class="nav-links">
-                <li><a href="/Fini/dashboard.php">Dashboard</a></li>
-                <li><a href="/Fini/register.php">Join</a></li>
+                <li><a href="/dashboard.php">Dashboard</a></li>
+                <li><a href="/register.php">Join</a></li>
             </ul>
         </nav>
 
         <p class="eyebrow">Welcome back</p>
         <h1>Sign in to<br>your account<span>.</span></h1>
-        <p class="already">Not a member yet? <a href="/Fini/register.php">Create an account</a></p>
+        <p class="already">Not a member yet? <a href="/register.php">Create an account</a></p>
 
         <?php if (!empty($message)): ?>
             <div class="alert alert-success"><?= htmlspecialchars($message) ?></div>
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label class="remember-label">
                     <input type="checkbox" name="remember"> Remember me
                 </label>
-                <a href="/Fini/password.php" class="forgot-link">Forgot password?</a>
+                <a href="/password.php" class="forgot-link">Forgot password?</a>
             </div>
 
             <div class="btn-row">
@@ -230,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // Signal the dashboard to use transition reveal
                 sessionStorage.setItem('fini_login_transition', '1');
                 playLoginTransition(() => {
-                    window.location.href = '/Fini/dashboard.php';
+                    window.location.href = '/dashboard.php';
                 });
             } else {
                 const parser   = new DOMParser();
