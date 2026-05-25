@@ -19,16 +19,16 @@ if ($db) {
 }
 
 // Which inner page to start on? Default: dashboard.
-$startPage = '/Fini/dashboard.php';
+$startPage = '/dashboard.php';
 if (isset($_GET['page'])) {
     // Whitelist allowed pages
     $allowed = [
-        'dashboard'  => '/Fini/dashboard.php',
-        'mytasks'    => '/Fini/dashboard/Mytasks.php',
-        'calendar'   => '/Fini/dashboard/Calendar.php',
-        'analytics'  => '/Fini/dashboard/Analytics.php',
-        'melodie'    => '/Fini/dashboard/melodie.php',
-        'settings'   => '/Fini/dashboard/settings.php',
+        'dashboard'  => '/dashboard.php',
+        'mytasks'    => '/dashboard/Mytasks.php',
+        'calendar'   => '/dashboard/Calendar.php',
+        'analytics'  => '/dashboard/Analytics.php',
+        'melodie'    => '/dashboard/melodie.php',
+        'settings'   => '/dashboard/settings.php',
     ];
     $startPage = $allowed[$_GET['page']] ?? $startPage;
 }
@@ -596,7 +596,7 @@ function postToMelodie(msg) {
 
 document.getElementById('playBtn').addEventListener('click', () => {
     if (!ytPlayer) {
-        navigateTo('/Fini/dashboard/melodie.php');
+        navigateTo('/dashboard/melodie.php');
         return;
     }
     try {
@@ -653,7 +653,7 @@ document.getElementById('openYtBtn').addEventListener('click', () => {
 });
 
 document.getElementById('openMelodieBtn').addEventListener('click', () => {
-    navigateTo('/Fini/dashboard/melodie.php');
+    navigateTo('/dashboard/melodie.php');
 });
 
 // ── Volume slider (click + drag) ─────────────────────────────

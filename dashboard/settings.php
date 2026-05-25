@@ -15,13 +15,7 @@ require_once __DIR__ . '/../public/database.config.php';
 $db = $conn;
 if ($db) {
     // Auto-migrate: add profile columns if they don't exist yet
-    $db->query("ALTER TABLE accounts
-        ADD COLUMN IF NOT EXISTS display_name VARCHAR(120) DEFAULT NULL,
-        ADD COLUMN IF NOT EXISTS bio          TEXT         DEFAULT NULL,
-        ADD COLUMN IF NOT EXISTS gender       VARCHAR(30)  DEFAULT NULL,
-        ADD COLUMN IF NOT EXISTS location     VARCHAR(120) DEFAULT NULL,
-        ADD COLUMN IF NOT EXISTS avatar_data  MEDIUMTEXT   DEFAULT NULL,
-        ADD COLUMN IF NOT EXISTS cover_data   MEDIUMTEXT   DEFAULT NULL");
+    $db->query("
 
     $stmt = $db->prepare("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status != 'done'");
     $stmt->bind_param('i', $user_id);
